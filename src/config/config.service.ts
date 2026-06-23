@@ -12,6 +12,7 @@ export class ConfigService {
             const existsPath = fs.existsSync(envFilePath)
             if(!existsPath){
                 console.log('.env.developmnet no existe DEVELOPMENT')
+                process.exit(0)
             }
             this.envConfig=parse(fs.readFileSync(envFilePath))
         }
@@ -21,6 +22,7 @@ export class ConfigService {
             const existsPath = fs.existsSync(envFilePath)
             if(!existsPath){
                 console.log('.env.production no existe Production')
+                process.exit(0)
             }
             this.envConfig=parse(fs.readFileSync(envFilePath))
         }

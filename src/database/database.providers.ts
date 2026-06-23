@@ -1,19 +1,25 @@
 import { DataSource } from "typeorm";
+import { ConfigService } from "../config/config.service"; 
+import { Configuration } from "../config/config.key";
 
-export const databaseProvider=[
+export const databaseProvider = [
     {
-        provide: "DATABASE_CONNECTIO",
-        useFactory:()=>{
-            const dataSource= new DataSource({
-                type:'postgres',
-                host:'localhost',
-                port: 5433,
-                username: 'postgres',
-                password: '12345',
-                database: 'back_nest_angularCE'
+        provide: "DATABASE_CONNECTION", 
+        inject: [ConfigService], 
+        useFactory: async (config: ConfigService) => {
+            const dataSource = new DataSource({
+                type: 'postgres',
+                host: config.get(Configuration.HOST),
+                // Aquí lee el puerto de tu archivo .env.development (5432) y lo convierte a número
+                port: parseInt(config.get(Configuration.PORT)), 
+                username: config.get(Configuration.USERNAME),
+                password: config.get(Configuration.PASSWORD),
+                database: config.get(Configuration.DATABASE),
+                entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+                synchronize: true, 
             });
 
             return dataSource.initialize();
         }
     }
-]
+];
