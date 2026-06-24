@@ -4,30 +4,21 @@ import {parse} from "dotenv"
 
 @Injectable()
 export class ConfigService {
-    private readonly envConfig:{[key:string]:string}
+    private readonly envConfig: {[key:string]:string}
     constructor(){
-        const isDevelopmentEnv = process.env.NODE_ENV !== 'production'
-        if(isDevelopmentEnv){
-            const envFilePath= __dirname +'/../../.env.development'
-            const existsPath = fs.existsSync(envFilePath)
+        const env = process.env.NODE_ENV || 'development';
+        // Corregido: Solo dos niveles hacia atrás para llegar a la raíz desde src/config
+        const envFilePath = `${__dirname}/../../.env.${env}`;
+        const existsPath = fs.existsSync(envFilePath);
             if(!existsPath){
-                console.log('.env.developmnet no existe DEVELOPMENT')
-                process.exit(0)
+                console.log(`.env.${env} no existe`);
+                process.exit(0);
             }
-            this.envConfig=parse(fs.readFileSync(envFilePath))
-        }
-        else
-        {
-            const envFilePath= __dirname +'/../../.env.production'
-            const existsPath = fs.existsSync(envFilePath)
-            if(!existsPath){
-                console.log('.env.production no existe Production')
-                process.exit(0)
-            }
-            this.envConfig=parse(fs.readFileSync(envFilePath))
-        }
+            this.envConfig = parse(fs.readFileSync(envFilePath));
+        
     }
     get(key: string):string{
         return this.envConfig[key];
     }
+    
 }

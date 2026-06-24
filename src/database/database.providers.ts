@@ -9,11 +9,11 @@ export const databaseProvider = [
         useFactory: async (config: ConfigService) => {
             const dataSource = new DataSource({
                 type: 'postgres',
-                host: config.get(Configuration.HOST),
+                host: config.get(Configuration.HOST) || 'localhost',
                 // Aquí lee el puerto de tu archivo .env.development (5432) y lo convierte a número
                 port: parseInt(config.get(Configuration.PORT)), 
-                username: config.get(Configuration.USERNAME),
-                password: config.get(Configuration.PASSWORD),
+                username: config.get(Configuration.USERNAME)||'root',
+                password: config.get(Configuration.PASSWORD)||'prueba',
                 database: config.get(Configuration.DATABASE),
                 entities: [__dirname + '/../**/*.entity{.ts,.js}'],
                 synchronize: true, 
