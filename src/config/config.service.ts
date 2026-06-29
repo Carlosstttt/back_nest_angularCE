@@ -8,7 +8,7 @@ export class ConfigService {
     constructor(){
         const env = process.env.NODE_ENV || 'development';
         // Corregido: Solo dos niveles hacia atrás para llegar a la raíz desde src/config
-        const envFilePath = `${__dirname}/../../.env.${env}`;
+        const envFilePath = `${__dirname}/../../../.env.${env}`;
         const existsPath = fs.existsSync(envFilePath);
             if(!existsPath){
                 console.log(`.env.${env} no existe`);

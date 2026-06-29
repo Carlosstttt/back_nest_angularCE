@@ -4,16 +4,16 @@ import { Configuration } from "../config/config.key";
 
 export const databaseProvider = [
     {
-        provide: "DATABASE_CONNECTION", 
+        provide: "DATABASE_CONNECTION_POSTGRES", 
         inject: [ConfigService], 
         useFactory: async (config: ConfigService) => {
             const dataSource = new DataSource({
                 type: 'postgres',
-                host: config.get(Configuration.HOST) || 'localhost',
+                host: config.get(Configuration.HOST),
                 // Aquí lee el puerto de tu archivo .env.development (5432) y lo convierte a número
                 port: parseInt(config.get(Configuration.PORT)), 
-                username: config.get(Configuration.USERNAME)||'root',
-                password: config.get(Configuration.PASSWORD)||'prueba',
+                username: config.get(Configuration.USERNAME),
+                password: config.get(Configuration.PASSWORD),
                 database: config.get(Configuration.DATABASE),
                 entities: [__dirname + '/../**/*.entity{.ts,.js}'],
                 synchronize: true, 
